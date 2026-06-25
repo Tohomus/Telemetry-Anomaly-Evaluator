@@ -1,0 +1,11 @@
+{
+    "timestamp": "2026-06-22 12:00:00",
+    "anomaly_detected": true,
+    "predicted_anomaly_type": "Current Surge",
+    "confidence": 0.98,
+    "telemetry": {
+        "battery_voltage": 23.5,
+        "temperature": 36.2,
+        "current_draw": 8.7
+    }
+}

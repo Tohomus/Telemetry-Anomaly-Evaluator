@@ -33,7 +33,7 @@ class PromptBuilder:
 
     Please explain:
 
-    1. What happend?
+    1. What happened?
     2. Possible causes?
     3. Recommended actions?
     """
