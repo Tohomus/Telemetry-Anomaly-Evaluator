@@ -1,15 +1,22 @@
-from rag.rag_assistant import (RagAssistant)
 from rag.rag_assistant import RagAssistant
 from rag.json_loader import JSONLoader
+from config import ALERTS_FILE
 
 #this is just a mock data, later we will include actual data#
 loader = JSONLoader()
 
-sample_alert = loader.load_alert("sample_data/sample_alert.json")
+alerts = loader.load_alerts(ALERTS_FILE)
+
+if not alerts:
+  print("No alerts found.")
+  exit()
+
 
 assistant = RagAssistant()
 
-response= assistant.process_alert(sample_alert)
+first_alert = alerts[0]
+
+response= assistant.process_alert(first_alert)
 
 print(response)
 

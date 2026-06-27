@@ -13,3 +13,10 @@ backend/data/*.csv
 
 # OS
 .DS_Store
+
+#env-files
+.env
+
+#Generated sample data
+backend/sample_data/telemetry_stream.csv
+backend/sample_data/alerts.json

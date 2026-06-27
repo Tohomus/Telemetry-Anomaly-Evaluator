@@ -7,36 +7,59 @@ class PromptBuilder:
   def build_prompt(self,alert,knowledge):
 
     return f"""
-    
-    An anomaly has been detected.
+You are an aerospace telemetry diagnostic assistant.
 
-    ANOMALY TYPE:
-    {alert["predicted_anomaly_type"]}
+Your task is to analyze telemetry anomalies generated from a spacecraft telemetry monitoring system.
 
-    CONFIDENCE:
-    {alert["confidence"]}
+Follow these rules carefully:
 
-    TELEMETRY:
+- Answer professionally.
+- Use ONLY the telemetry values and knowledge base provided below.
+- Do NOT invent information that is not present.
+- If confidence is low, mention that the prediction may require further verification.
+- Keep the explanation concise and technically accurate.
+- Use the severity provided in the knowledge base. Do not assign a different severity.
 
-    Voltage:
-    {alert["telemetry"]["battery_voltage"]}
+Respond using the following structure:
 
-    Temperature:
-    {alert["telemetry"]["temperature"]}
+## Summary
 
-    Current:
-    {alert["telemetry"]["current_draw"]}
+## Possible Causes
 
-    KNOWLEDGE BASE:
+## Recommended Actions
 
-    {knowledge}
+## Severity Assessment
 
-    Please explain:
+--------------------------------------------------
 
-    1. What happened?
-    2. Possible causes?
-    3. Recommended actions?
-    """
+ANOMALY DETAILS
+
+Anomaly Type:
+{alert["predicted_anomaly_type"]}
+
+Confidence:
+{alert["confidence"]}
+
+Telemetry Values:
+
+Battery Voltage:
+{alert["telemetry"]["battery_voltage"]} V
+
+Temperature:
+{alert["telemetry"]["temperature"]} °C
+
+Current Draw:
+{alert["telemetry"]["current_draw"]} A
+
+Power:
+{alert["telemetry"]["power"]} W
+
+--------------------------------------------------
+
+KNOWLEDGE BASE
+
+{knowledge}
+"""
 
 #Note:
 #Alert is a dictionary, it holds data in key-value pairs.

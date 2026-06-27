@@ -4,6 +4,8 @@ from sklearn.metrics import (
     classification_report,
     confusion_matrix
 )
+from config import ALERTS_FILE
+
 import numpy as np
 import pandas as pd
 import json
@@ -205,7 +207,7 @@ class AnomalyClassifier:
                         float(
                             row["Current_Draw_A"]
                         ),
-                    "Power" :
+                    "power" :
                         float(
                             row["Power_W"]
                         )
@@ -215,6 +217,13 @@ class AnomalyClassifier:
             alerts.append(alert)
 
         return alerts
+    
+    def save_alerts(self,alerts,filename=ALERTS_FILE):
+
+        with open(filename, "w") as file:
+            json.dump(alerts,file,indent=4)
+
+        print(f"\nAlerts saved to {filename}")
 
     def run(self):
 
@@ -227,6 +236,8 @@ class AnomalyClassifier:
         self.feature_importance()
 
         alerts = self.generate_json_alerts()
+
+        self.save_alerts(alerts)
 
         print("\nSample Alert:\n")
 
