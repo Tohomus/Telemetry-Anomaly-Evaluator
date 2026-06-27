@@ -1,74 +1,62 @@
-import json
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.metrics import (
+    classification_report,
+    confusion_matrix
+)
+import numpy as np
+import pandas as pd
+import json
+
 class AnomalyClassifier:
-
-    def __init__(self, telemetry_df):
-        # Store the telemetry dataframe
+    def __init__(self,telemetry_df):
         self.telemetry_df = telemetry_df
-
-        # Initialize Random Forest classifier
         self.model = RandomForestClassifier(
-            n_estimators=100,
+            n_estimators=200,
+            max_depth=12,
+            min_samples_leaf=3,
             random_state=42
         )
-
-        # Variables to store train-test split data
         self.X_train = None
         self.X_test = None
         self.y_train = None
         self.y_test = None
 
     def train(self):
-        # Select telemetry features for training
+
+      # Extracting features needed for training
         X = self.telemetry_df[
             [
                 "Battery_Voltage_V",
                 "Temperature_C",
-                "Current_Draw_A"
+                "Current_Draw_A",
+                "Power_W"
             ]
         ]
-
-        # Target variable containing anomaly labels
         y = self.telemetry_df["Anomaly_Type"]
 
-        # Split data into training and testing sets
-        self.X_train, self.X_test, self.y_train, self.y_test = (
-            train_test_split(
-                X,
-                y,
-                test_size=0.2,
-                random_state=42,
-                stratify=y
-            )
+        self.X_train,self.X_test,self.y_train,self.y_test = train_test_split(
+            X, y, test_size = 0.2, random_state = 42, stratify = y
         )
 
-        # Train the Random Forest model
-        self.model.fit(
-            self.X_train,
-            self.y_train
-        )
+        self.model.fit(self.X_train,self.y_train)
 
     def evaluate(self):
-        # Generate predictions on test data
-        y_pred = self.model.predict(
-            self.X_test
-        )
+        y_pred = self.model.predict(self.X_test)
 
+        # We are going to evaluate our model
+        print("\nModel Evaluation:")
         print("\nClassification Report:\n")
-
-        # Display precision, recall and F1-score
         print(
             classification_report(
                 self.y_test,
-                y_pred
+                y_pred,
+                zero_division=0
             )
         )
 
         print("\nConfusion Matrix:\n")
 
-        # Display confusion matrix
         print(
             confusion_matrix(
                 self.y_test,
@@ -76,37 +64,116 @@ class AnomalyClassifier:
             )
         )
 
+        train_acc = self.model.score(self.X_train, self.y_train)
+        test_acc = self.model.score(self.X_test, self.y_test)
+
+        print("Train:", train_acc)
+        print("Test :", test_acc)
+
+    def cross_validate(self):
+
+      # Instead of evaluating the model on just one train/test split,
+      # it trains and tests the model five different times using different subsets of the data.
+
+       X = self.telemetry_df[
+            [
+                "Battery_Voltage_V",
+                "Temperature_C",
+                "Current_Draw_A",
+                "Power_W"
+            ]
+        ]
+       y = self.telemetry_df["Anomaly_Type"]
+
+       scores = cross_val_score(
+           self.model,
+           X,
+           y,
+           cv=5,
+           scoring="f1_macro"
+       )
+
+       print("\nCross-Validation Scores:")
+       for i, score in enumerate(scores, start=1):
+            print(f"Fold {i}: {score:.4f}")
+
+       print("\nMean F1 Score :", round(scores.mean(), 4))
+       print("Std Deviation :", round(scores.std(), 4))
+
+    def feature_importance(self):
+
+        # To see importance of each features
+        importance = pd.DataFrame({
+
+            "Feature": self.X_train.columns,
+
+            "Importance": self.model.feature_importances_
+
+        })
+
+        importance = importance.sort_values(
+            by="Importance",
+            ascending=False
+        )
+        print("\nFeature Importance")
+        print(importance.to_string(index=False))
+
+# generate a new telemetry dataset and test the trained model on it.
+
+    def evaluate_new_dataset(self,new_df):
+      X_new = new_df[
+            [
+                "Battery_Voltage_V",
+                "Temperature_C",
+                "Current_Draw_A",
+                "Power_W"
+            ]
+        ]
+      y_new = new_df[
+            "Anomaly_Type"
+        ]
+
+      predictions = self.model.predict(X_new)
+      print("\nEvaluation on new dataset:")
+      print(classification_report(y_new, predictions, zero_division=0))
+      print("Accuracy :",round(self.model.score(X_new,y_new),4))
+
+
+
     def generate_json_alerts(self):
 
-        # Extract only anomalous rows
         anomaly_rows = self.telemetry_df[
             self.telemetry_df["Is_Anomaly"] == 1
         ]
-
         alerts = []
 
-        # Generate alert for each anomaly
         for _, row in anomaly_rows.iterrows():
 
-            features = [[
-                row["Battery_Voltage_V"],
-                row["Temperature_C"],
-                row["Current_Draw_A"]
-            ]]
+            features = pd.DataFrame(
+                [[
+                    row["Battery_Voltage_V"],
+                    row["Temperature_C"],
+                    row["Current_Draw_A"],
+                    row["Power_W"]
+                ]],
+            columns=[
+                "Battery_Voltage_V",
+                "Temperature_C",
+                "Current_Draw_A",
+                "Power_W"
+                    ]
+            )
 
-            # Predict anomaly type
             prediction = self.model.predict(
                 features
             )[0]
 
-            # Get highest prediction probability
             confidence = max(
                 self.model.predict_proba(
                     features
                 )[0]
             )
 
-            # Create JSON alert
             alert = {
                 "timestamp":
                     str(row["Timestamp"]),
@@ -137,6 +204,10 @@ class AnomalyClassifier:
                     "current_draw":
                         float(
                             row["Current_Draw_A"]
+                        ),
+                    "Power" :
+                        float(
+                            row["Power_W"]
                         )
                 }
             }
@@ -147,18 +218,18 @@ class AnomalyClassifier:
 
     def run(self):
 
-        # Train the model
         self.train()
 
-        # Evaluate model performance
         self.evaluate()
 
-        # Generate anomaly alerts
+        self.cross_validate()
+
+        self.feature_importance()
+
         alerts = self.generate_json_alerts()
 
         print("\nSample Alert:\n")
 
-        # Display first few alerts
         print(
             json.dumps(
                 alerts[:3],
