@@ -19,7 +19,15 @@ class KnowledgeRetriever:
 
       "Current Surge": "current_surge.md",
 
-      "Multi-Variable Fault": "multi_variable_fault.md"
+      "Multi-Variable Fault": "multi_variable_fault.md",
+
+      "Battery Degradation": "battery_degradation.md",
+
+      "Cooling Failure": "cooling_failure.md",
+
+      "Sensor Noise": "sensor_noise.md",
+
+      "Mixed Fault": "mixed_fault.md"
     }
 
     filename = mapping.get(anomaly_type)
