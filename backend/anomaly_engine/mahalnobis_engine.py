@@ -20,7 +20,8 @@ class MahalanobisDistanceDetector:
             [
                 "Battery_Voltage_V",
                 "Temperature_C",
-                "Current_Draw_A"
+                "Current_Draw_A",
+                "Power_W"
             ]
         ].to_numpy()
 
@@ -38,7 +39,8 @@ class MahalanobisDistanceDetector:
             [
                 "Battery_Voltage_V",
                 "Temperature_C",
-                "Current_Draw_A"
+                "Current_Draw_A",
+                "Power_W"
             ]
         ].to_numpy()
 
