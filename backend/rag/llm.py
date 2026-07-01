@@ -1,6 +1,6 @@
 import google.generativeai as genai
 
-from config import(GEMINI_API_KEY,GEMINI_MODEL)
+from backend.config import(GEMINI_API_KEY,GEMINI_MODEL)
 
 class LLM:
 
