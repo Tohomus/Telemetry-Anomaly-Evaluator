@@ -4,11 +4,12 @@
 
 
 from pathlib import Path # -> Here, I haven't installed any package as pathlib is inbuilt in python.#
+from backend.config import KNOWLEDGE_BASE_DIR
 
 class KnowledgeRetriever:
 
   def __init__(self):
-    self.kb_path = Path("knowledge_base")
+    self.kb_path = KNOWLEDGE_BASE_DIR
 
   def retrieve(self,anomaly_type):
     #a dictionary is initialised as we can find the anomaly and the file it's knowledge belongs to#

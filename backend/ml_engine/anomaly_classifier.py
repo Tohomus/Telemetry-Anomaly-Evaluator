@@ -4,7 +4,7 @@ from sklearn.metrics import (
     classification_report,
     confusion_matrix
 )
-from config import ALERTS_FILE
+from backend.config import ALERTS_FILE
 
 import numpy as np
 import pandas as pd

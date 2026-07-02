@@ -1,6 +1,6 @@
-from rag.rag_assistant import RagAssistant
-from rag.json_loader import JSONLoader
-from config import ALERTS_FILE
+from backend.rag.rag_assistant import RagAssistant
+from backend.rag.json_loader import JSONLoader
+from backend.config import ALERTS_FILE
 
 #this is just a mock data, later we will include actual data#
 loader = JSONLoader()

@@ -1,6 +1,6 @@
-from rag.retriever import (KnowledgeRetriever)
-from rag.prompt_builder import (PromptBuilder)
-from rag.llm import LLM
+from backend.rag.retriever import (KnowledgeRetriever)
+from backend.rag.prompt_builder import (PromptBuilder)
+from backend.rag.llm import LLM
 
 
 class RagAssistant:
