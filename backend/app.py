@@ -15,7 +15,7 @@ app = FastAPI(
     title = "Telemetry Anomaly Evaluator",
     version = "1.0"
 )
-from pydantic import BaseModel
+
 
 
 class Telemetry(BaseModel):
