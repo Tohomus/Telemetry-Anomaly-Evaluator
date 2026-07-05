@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================
+   Base
+=========================== */
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #0b1220;
+  color: #f8fafc;
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+}
+
+/* ===========================
+   Typography
+=========================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+code,
+pre,
+.data-font {
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+/* ===========================
+   Scrollbar
+=========================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #101827;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* ===========================
+   Selection
+=========================== */
+
+::selection {
+  background: #3b82f6;
+  color: white;
+}
+
+/* ===========================
+   Buttons
+=========================== */
+
+button {
+  transition: all 0.2s ease;
+}
+
+/* ===========================
+   Inputs
+=========================== */
+
+input,
+select,
+textarea {
+  outline: none;
+}
+
+/* ===========================
+   Tables
+=========================== */
+
+table {
+  border-collapse: collapse;
+}
+
+th {
+  font-weight: 600;
+}
+
+td,
+th {
+  white-space: nowrap;
+}
+
+/* ===========================
+   Utility
+=========================== */
+
+.panel {
+  @apply rounded-xl border border-slate-700 bg-card;
+}
+
+.section-title {
+  @apply text-lg font-semibold tracking-wide;
+}
+
+.data-text {
+  @apply font-mono;
+}
