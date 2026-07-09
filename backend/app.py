@@ -44,7 +44,7 @@ def home():
         "message": "Telemetry Backend is working!"
     }
 
-@app.post("/generate data")
+@app.post("/generate-data")
 def generate_data():
 
     simulator = TelemetrySimulator()
