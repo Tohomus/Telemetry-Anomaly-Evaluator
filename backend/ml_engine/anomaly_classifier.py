@@ -177,40 +177,15 @@ class AnomalyClassifier:
             )
 
             alert = {
-                "timestamp":
-                    str(row["Timestamp"]),
-
-                "anomaly_detected":
-                    True,
-
-                "predicted_anomaly_type":
-                    prediction,
-
-                "confidence":
-                    round(
-                        float(confidence),
-                        4
-                    ),
-
-                "telemetry": {
-                    "battery_voltage":
-                        float(
-                            row["Battery_Voltage_V"]
-                        ),
-
-                    "temperature":
-                        float(
-                            row["Temperature_C"]
-                        ),
-
-                    "current_draw":
-                        float(
-                            row["Current_Draw_A"]
-                        ),
-                    "power" :
-                        float(
-                            row["Power_W"]
-                        )
+                "timestamp": str(row["Timestamp"]),
+                "anomaly_detected": True,
+                "predicted_anomaly_type": prediction,
+                "confidence": round(float(confidence),4),
+                "telemetry" : {
+                    "battery_voltage": float(row["Battery_Voltage_V"]),
+                    "temperature": float(row["Temperature_C"]),
+                    "current_draw": float(row["Current_Draw_A"]),
+                    "power": float(row["Power_W"])
                 }
             }
 

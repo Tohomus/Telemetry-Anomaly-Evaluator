@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import MainLayout from "../layouts/MainLayout";
 import PageContainer from "../components/layout/PageContainer";
 
@@ -6,8 +7,15 @@ import StatsSection from "../components/stats/StatsSection";
 import AlertExplorer from "../components/alerts/AlertExplorer";
 import AnalysisSection from "../components/analysis/AnalysisSection";
 import SystemStatus from "../components/status/SystemStatus";
+import { usePipeline } from "../hooks/usePipeline";
 
 function Dashboard() {
+
+  const { handleLoadAlerts }= usePipeline();
+
+  useEffect(() => {
+    handleLoadAlerts();
+  },[]);
   return (
     <MainLayout>
       <PageContainer>
