@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from backend.simulator.anomaly_simulator import TelemetrySimulator
 from backend.anomaly_engine.mahalnobis_engine import MahalanobisDistanceDetector
 from backend.ml_engine.anomaly_classifier import AnomalyClassifier
@@ -14,6 +15,14 @@ from pydantic import BaseModel
 app = FastAPI(
     title = "Telemetry Anomaly Evaluator",
     version = "1.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[ "http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -100,7 +109,7 @@ def get_alerts():
         with open(ALERTS_FILE, "r") as file:
             alerts = json.load(file)
 
-        return alerts
+        return alerts[-100:]
 
     except FileNotFoundError:
         raise HTTPException(

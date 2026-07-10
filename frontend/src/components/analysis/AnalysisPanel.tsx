@@ -1,71 +1,52 @@
 import Card from "../ui/Card";
-import SeverityBadge from "./SeverityBadge";
+import { useTelemetryStore } from "../../store/telemetryStore";
 
 function AnalysisPanel() {
+
+    const { analysis, loading } = useTelemetryStore();
+
     return (
+
         <Card>
 
             <h2 className="mb-6 text-xl font-heading">
                 AI Analysis
             </h2>
 
-            <div className="space-y-6">
+            {loading ? (
+
+                <p className="text-sm text-muted">
+                    Generating AI analysis...
+                </p>
+
+            ) : (
 
                 <div>
 
-                    <h3 className="mb-2 font-semibold">
-                        Summary
+                    <h3 className="mb-3 font-semibold">
+                        Response
                     </h3>
 
-                    <p className="text-sm text-muted">
-                        Select an anomaly from the table to
-                        generate an AI explanation.
-                    </p>
+                    <div className="rounded-lg border border-slate-700 bg-slate-900 p-4">
+
+                        <p className="whitespace-pre-wrap text-sm leading-7 text-muted">
+
+                            {analysis
+                                ? analysis.response
+                                : "Select an alert and click Analyze."}
+
+                        </p>
+
+                    </div>
 
                 </div>
 
-                <div>
-
-                    <h3 className="mb-2 font-semibold">
-                        Possible Causes
-                    </h3>
-
-                    <ul className="list-disc space-y-1 pl-5 text-sm text-muted">
-
-                        <li>Waiting for analysis...</li>
-
-                    </ul>
-
-                </div>
-
-                <div>
-
-                    <h3 className="mb-2 font-semibold">
-                        Recommended Actions
-                    </h3>
-
-                    <ul className="list-disc space-y-1 pl-5 text-sm text-muted">
-
-                        <li>Waiting for analysis...</li>
-
-                    </ul>
-
-                </div>
-
-                <div>
-
-                    <h3 className="mb-2 font-semibold">
-                        Severity
-                    </h3>
-
-                    <SeverityBadge severity="Low" />
-
-                </div>
-
-            </div>
+            )}
 
         </Card>
+
     );
+
 }
 
 export default AnalysisPanel;

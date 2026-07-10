@@ -1,5 +1,5 @@
 export const ENDPOINTS = {
-  GENERATE: "/generate data",
+  GENERATE: "/generate-data",
   DETECT: "/detect-anomalies",
   CLASSIFY: "/classify-anomalies",
   ANALYZE: "/ask-rag",

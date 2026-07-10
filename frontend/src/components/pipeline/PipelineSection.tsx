@@ -6,7 +6,7 @@ import { PIPELINE_STAGES } from "../../constants/pipeline";
 
 function PipelineSection() {
 
-  const { handleGenerateDataset }=usePipeline();
+  const { handleGenerateDataset,handleDetectAnomalies, handleClassification }=usePipeline();
   return (
     <div className="mb-10">
       <h2 className="mb-5 text-xl font-heading">
@@ -26,6 +26,10 @@ function PipelineSection() {
               onClick={
                 stage.id === 1
                 ? handleGenerateDataset
+                : stage.id === 2
+                ? handleDetectAnomalies
+                : stage.id === 3
+                ? handleClassification
                 : undefined
               }
             />
