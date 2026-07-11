@@ -7,32 +7,39 @@ import {
 
 import Section from "../layout/Section";
 import StatCard from "./StatCard";
+import { useTelemetryStore } from "../../store/telemetryStore";
 
 function StatsSection() {
+
+  const {generatedSamples,detectedAnomalies,generatedAlerts,backendStatus } = useTelemetryStore();
   return (
     <Section title="Dataset Summary">
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
         <StatCard
           title="Generated Samples"
-          value="5,000"
+          value={generatedSamples}
           icon={Database}
         />
 
         <StatCard
           title="Detected Anomalies"
-          value="42"
+          value={detectedAnomalies}
           icon={AlertTriangle}
         />
 
         <StatCard
           title="Generated Alerts"
-          value="42"
+          value={generatedAlerts}
           icon={Activity}
         />
 
         <StatCard
           title="Backend Status"
-          value="Online"
+          value={
+            backendStatus === "online"
+            ? "Online"
+            : "Offline"
+          }
           icon={Server}
         />
       </div>

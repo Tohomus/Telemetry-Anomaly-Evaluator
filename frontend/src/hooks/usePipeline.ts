@@ -12,22 +12,37 @@ export function usePipeline() {
   const {
     setLoading,
     setAlerts,
+    setGenerateStatus,
+    setDetectStatus,
+    setClassifyStatus,
+    setGeneratedSamples,
+    setDetectedAnomalies,
+    setGeneratedAlerts,
   } = useTelemetryStore();
 
   const handleGenerateDataset = async () => {
 
     try {
 
+      setGenerateStatus("running");
+
       setLoading(true);
 
       const response =
         await generateDataset();
 
+        setGeneratedSamples(
+          response.rows_generated
+        );
+
       console.log(response);
+
+      setGenerateStatus("completed");
 
     } catch (error) {
 
       console.error(error);
+      setGenerateStatus("idle");
 
     } finally {
 
@@ -39,14 +54,23 @@ export function usePipeline() {
 
   const handleDetectAnomalies = async () => {
   try {
+
+    setDetectStatus("running");
+
     setLoading(true);
 
     const response = await detectAnomalies();
 
+    setDetectedAnomalies(
+      response.anomalies_detected
+    );
+
     console.log(response);
+    setDetectStatus("completed");
 
   } catch (error) {
     console.error(error);
+    setDetectStatus("idle");
 
   } finally {
     setLoading(false);
@@ -54,11 +78,18 @@ export function usePipeline() {
 };
     const handleClassification = async () => {
   try {
+    setClassifyStatus("running");
+
     setLoading(true);
 
     const response = await classifyAnomalies();
 
+    setGeneratedAlerts(
+      response.alerts_generated
+    )
+
     console.log(response);
+
 
     const alerts = await getAlerts();
 
@@ -66,8 +97,11 @@ export function usePipeline() {
 
     setAlerts(alerts);
 
+    setClassifyStatus("completed");
+
   } catch (error) {
     console.error(error);
+    setClassifyStatus("idle");
 
   } finally {
     setLoading(false);

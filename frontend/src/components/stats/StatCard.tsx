@@ -15,7 +15,11 @@ function StatCard({ title, value, icon: Icon }: StatCardProps) {
           <p className="text-sm text-muted">{title}</p>
 
           <h3 className="mt-2 font-mono text-2xl font-semibold text-text">
-            {value}
+            {typeof value === "number"
+              ? value === 0
+                ? "--"
+              : value.toLocaleString()
+            : value}
           </h3>
         </div>
 
