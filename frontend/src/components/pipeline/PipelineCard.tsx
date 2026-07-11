@@ -34,8 +34,17 @@ function PipelineCard({
       <Button
         className="mt-6 w-full"
         onClick={onClick}
+        disabled={
+          status === "running"
+          ||
+          status === "completed"
+        }
       >
-        {buttonText}
+       {status === "running"
+        ? "Processing..."
+        : status === "completed"
+        ? "Completed"
+        : buttonText} 
       </Button>
     </Card>
   );

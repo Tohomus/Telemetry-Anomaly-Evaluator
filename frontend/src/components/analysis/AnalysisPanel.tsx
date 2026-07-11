@@ -3,7 +3,7 @@ import { useTelemetryStore } from "../../store/telemetryStore";
 
 function AnalysisPanel() {
 
-    const { analysis, loading } = useTelemetryStore();
+    const { analysis, analysisStatus } = useTelemetryStore();
 
     return (
 
@@ -13,7 +13,7 @@ function AnalysisPanel() {
                 AI Analysis
             </h2>
 
-            {loading ? (
+            {analysisStatus === "running" ? (
 
                 <p className="text-sm text-muted">
                     Generating AI analysis...
