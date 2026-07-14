@@ -1,0 +1,14 @@
+pycache/
+*.pyc
+*.pyo
+*.pyd
+
+.venv/
+
+.git/
+.vscode/
+.idea/
+
+docs/
+README.md
+RUN_COMMANDS.md
