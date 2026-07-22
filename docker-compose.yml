@@ -1,4 +1,4 @@
-version: "3.9"
+
 
 services:
 
@@ -35,7 +35,7 @@ services:
 
     environment:
       
-      VITE_API_URL: "http://localhost:8000/"
+      VITE_API_URL: "http://16.171.24.67:8000/"
 
     volumes:
       
